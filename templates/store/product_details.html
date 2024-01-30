@@ -137,18 +137,35 @@
 
                 <br>
                 <header class="section-heading">
-                  <h3>Customer Reviews </h3>
+                  <h3>Total Positive And Negative Review Count </h3>
                   <div class="rating-star">
-                    <span>
+                    {% comment %} <span>
                       <i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
                       <i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
                       <i class="fa fa-star{% if single_product.averageReview < 2.5 %}-o{% elif single_product.averageReview >= 2.5 and single_product.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
                       <i class="fa fa-star{% if single_product.averageReview < 3.5 %}-o{% elif single_product.averageReview >= 3.5 and single_product.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
                       <i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
-                  <span>{{single_product.countReview}} reviews</span>
-                      </span>
-                  </div>                
+                  <span>{{single_product.countReview}} reviews</span> {% endcomment %}
+                  {% comment %} </span> {% endcomment %}
+                  <span >Positive Count =  {{single_product.countReview}} </span>
+                {% comment %} </span> {% endcomment %}
+                <span>Negative Count = {{single_product.countReview}}</span>
+              </span>
+                  </div>
               </header>
+              <header class="section-heading">
+                <h3>Customer Reviews </h3>
+                <div class="rating-star">
+                  <span>
+                    <i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+                    <i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+                    <i class="fa fa-star{% if single_product.averageReview < 2.5 %}-o{% elif single_product.averageReview >= 2.5 and single_product.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+                    <i class="fa fa-star{% if single_product.averageReview < 3.5 %}-o{% elif single_product.averageReview >= 3.5 and single_product.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+                    <i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+                <span>{{single_product.countReview}} reviews</span>
+                    </span>
+                </div>                
+            </header>
         {% for review in reviews %}
                 <article class="box mb-3">
                     <div class="icontext w-100">
@@ -168,10 +185,13 @@
                         </div>
                     </div> <!-- icontext.// -->
                     <div class="mt-3">
-                      <h6> {{ review.subject }}</h6>
-                        <p>
+                      <h6> subject -> {{ review.subject }}</h6>
+                        <p>review ->
                            {{ review.review}}
                         </p>	
+                        <h6>  RevieweType ->
+                          {{ review.reviewType}}
+                        </h6>
                     </div>
                 </article>
         {% endfor%}

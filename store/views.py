@@ -9,6 +9,7 @@ from carts.views import _cart_id
 from django.http import HttpResponse 
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 from django.db.models import Q
+from .helperMl import preprocessing, vectorizer, get_prediction
 # Create your views here.
 
 def store(request,category_slug=None):
@@ -106,9 +107,22 @@ def submit_review(request , product_id):
             # product__id ekath foreign key nisa ReviewRating wala
             reviews = ReviewRating.objects.get(user__id = request.user.id , product__id = product_id)
             form = ReviewForm(request.POST , instance = reviews)
-            form.save()
-            messages.success(request , 'Thank You! You review has been updated.')
+            if form.is_valid():
+                review = form.cleaned_data['review']
+                # Your other code here
+                print("prediction", review)
+                preprocessed_txt = preprocessing(review)
+                vectorized_txt = vectorizer(preprocessed_txt)
+                prediction = get_prediction(vectorized_txt)
+                print("prediction",prediction)
+                form.instance.reviewType = prediction
+                form.save()
+                messages.success(request , 'Thank You! You review has been updated.')
+            else:
+            # Handle form validation errors, e.g., return an error response or render the form again with validation errors
+                print("Form is not valid")
             return redirect(url)
+
         except ReviewRating.DoesNotExist:
             form = ReviewForm(request.POST)
             if form.is_valid():
@@ -116,9 +130,18 @@ def submit_review(request , product_id):
                 data.subject = form.cleaned_data['subject']
                 data.rating = form.cleaned_data['rating']
                 data.review = form.cleaned_data['review']
+                # Your other code here
+                print("prediction", review)
+                preprocessed_txt = preprocessing(data.review)
+                vectorized_txt = vectorizer(preprocessed_txt)
+                prediction = get_prediction(vectorized_txt)
+                print("prediction",prediction)
+                data.reviewType = prediction
                 data.ip = request.META.get('REMOTE_ADDR')
                 data.product_id = product_id
                 data.user_id = request.user.id
                 data.save()
+                print("Hello World")
                 messages.success(request , 'Thank You! You review has been submited.')
                 return redirect(url)
+            
