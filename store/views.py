@@ -73,6 +73,7 @@ def product_details(request ,category_slug,product_slug ):
 # Get the review
     reviews = ReviewRating.objects.filter(product_id = single_product.id , status = True)
 
+
     context = {
         'single_product':single_product,
         'in_cart' : in_cart,
