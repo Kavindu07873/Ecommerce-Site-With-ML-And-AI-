@@ -29,5 +29,9 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('orders/', include('orders.urls')),
     
-       
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+      
+] 
+# Static and media files serving in development
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

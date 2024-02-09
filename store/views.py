@@ -73,12 +73,26 @@ def product_details(request ,category_slug,product_slug ):
 # Get the review
     reviews = ReviewRating.objects.filter(product_id = single_product.id , status = True)
 
+    positive_reviews_count = ReviewRating.objects.filter(
+        product_id=single_product.id,
+        reviewType='positive',
+        status=True
+    ).count()
+
+    negative_reviews_count = ReviewRating.objects.filter(
+        product_id=single_product.id,
+        reviewType='negative',
+        status=True
+    ).count()
+
 
     context = {
         'single_product':single_product,
         'in_cart' : in_cart,
         'orderproduct':orderproduct,
         'reviews' : reviews,
+        'positive_reviews_count':positive_reviews_count,
+        'negative_reviews_count':negative_reviews_count
     }
 
     return render(request , 'store/product_details.html' ,context)
@@ -111,11 +125,11 @@ def submit_review(request , product_id):
             if form.is_valid():
                 review = form.cleaned_data['review']
                 # Your other code here
-                print("prediction", review)
+                # print("prediction", review)
                 preprocessed_txt = preprocessing(review)
                 vectorized_txt = vectorizer(preprocessed_txt)
                 prediction = get_prediction(vectorized_txt)
-                print("prediction",prediction)
+                # print("prediction",prediction)
                 form.instance.reviewType = prediction
                 form.save()
                 messages.success(request , 'Thank You! You review has been updated.')
@@ -132,11 +146,11 @@ def submit_review(request , product_id):
                 data.rating = form.cleaned_data['rating']
                 data.review = form.cleaned_data['review']
                 # Your other code here
-                print("prediction", review)
+                # print("prediction", review)
                 preprocessed_txt = preprocessing(data.review)
                 vectorized_txt = vectorizer(preprocessed_txt)
                 prediction = get_prediction(vectorized_txt)
-                print("prediction",prediction)
+                # print("prediction",prediction)
                 data.reviewType = prediction
                 data.ip = request.META.get('REMOTE_ADDR')
                 data.product_id = product_id

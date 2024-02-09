@@ -147,9 +147,9 @@
                       <i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
                   <span>{{single_product.countReview}} reviews</span> {% endcomment %}
                   {% comment %} </span> {% endcomment %}
-                  <span >Positive Count =  {{single_product.countReview}} </span>
-                {% comment %} </span> {% endcomment %}
-                <span>Negative Count = {{single_product.countReview}}</span>
+                  <span>Positive Count = {{ positive_reviews_count }}</span>
+                  {% comment %} </span> {% endcomment %}
+                <span>Negative Count = {{negative_reviews_count}}</span>
               </span>
                   </div>
               </header>
